@@ -1,25 +1,26 @@
-pipeline {
-    agent any
+pipeline { 
+    agent any  
+    stages { 
+        stage('Build') { 
+            steps { 
+               echo 'Maven Test, Compile and Packaging using jenkinsfile .' 
 
-    stages {
-        stage ('Compile Stage') {
-
-            steps {
-                withMaven(maven : 'apache-maven-3.6.3') {
-                    sh 'mvn clean compile'
-                }
             }
         }
-
-        stage ('Testing Stage') {
-
+        stage('Compile') { 
+            steps { 
+               bat 'mvn compile'
+            }
+		}
+		stage('Test') {
             steps {
-                withMaven(maven : 'apache-maven-3.6.3') {
-                    sh 'mvn test'
-                }
+                bat 'mvn test'
+            }
+        }		
+		stage('Install') {
+            steps {
+                bat 'mvn install'
             }
         }
-
-
     }
 }
